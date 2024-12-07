@@ -1,4 +1,5 @@
-def get_author_details(soup, author_pub):
+def get_author_details(soup):
+    author_pub = dict()
     auth_name_html = soup.find(id='gsc_prf_in')
     if auth_name_html:
         author_pub['name'] = auth_name_html.get_text()
@@ -9,6 +10,8 @@ def get_author_details(soup, author_pub):
             if author_deatils_html: 
                 author_pub['citations'] = author_deatils_html[0].find(class_='gsc_rsb_std').get_text()
                 author_pub['h-ind'] = author_deatils_html[1].find(class_='gsc_rsb_std').get_text()
+                author_pub['i10-ind'] = author_deatils_html[2].find(class_='gsc_rsb_std').get_text()
+        return author_pub
 
 def get_coauths(soup):
     co_auths = []
@@ -43,7 +46,6 @@ def get_auth_pubs(soup):
 def get_pub_details(soup):
     pub_details = dict() 
     pub_details['Title'] = soup.find(class_ = 'gsc_oci_title_link').get_text()
-
     pub_table = soup.find(id='gsc_oci_table')
     if pub_table: 
         pub_table_tr = pub_table.find_all(class_='gs_scl')
